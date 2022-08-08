@@ -1,17 +1,20 @@
 package com.hotelbeds.supplierintegrations.hackertest.detector;
 
+import java.util.Date;
+
 public class LineDTO {
+
 
     private String ip;
     private long dateMs;
-    private String operation;
-    private String user;
+    private String action;
+    private String username;
 
-    public LineDTO(String ip, long dateMs, String operation, String user) {
+    public LineDTO(String ip, long dateMs, String action, String username) {
         this.ip = ip;
         this.dateMs = dateMs;
-        this.operation = operation;
-        this.user = user;
+        this.action = action;
+        this.username = username;
     }
 
     public String getIp() {
@@ -30,19 +33,29 @@ public class LineDTO {
         this.dateMs = dateMs;
     }
 
-    public String getOperation() {
-        return operation;
+    public String getAction() {
+        return action;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String user) {
+        this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "LineDTO{" +
+                "ip='" + ip + '\'' +
+                ", dateMs=" +dateMs+ " FECHA: "+ new Date(dateMs) +
+                ", action='" + action + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }
