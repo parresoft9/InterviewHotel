@@ -2,6 +2,7 @@ package com.hotelbeds.supplierintegrations.hackertest.detector;
 
 import com.hotelbeds.supplierintegrations.hackertest.detector.utils.ActionEnum;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ import java.util.Random;
 @Component
 public class MyDaemonWriter {
 
+    @Value("${request.write.register.filename}")
+    private String filenameToRegisterRequest;
+
     private String[] ipsValues= new String[10];
 
     private Random r = new Random();
@@ -25,9 +29,9 @@ public class MyDaemonWriter {
         }
     }
     //Escribimos un registo cada 0,1seg 10 req/sec
-    @Scheduled(fixedRate = 10)
+    @Scheduled(fixedRateString = "${daemon.writer.request.time}")
     public void doSomething() throws IOException {
-        File resource = new ClassPathResource("registers.txt").getFile();
+        File resource = new ClassPathResource(filenameToRegisterRequest).getFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(resource.getAbsolutePath(),true));
 
         String ip = ipsValues[r.nextInt(5)];
