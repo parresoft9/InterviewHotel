@@ -19,12 +19,16 @@ public class MyDaemonWriter {
     @Value("${request.write.register.filename}")
     private String filenameToRegisterRequest;
 
-    private String[] ipsValues= new String[10];
+    private Integer numberIpsGame;
+
+    private String[] ipsValues;
 
     private Random r = new Random();
 
-    public MyDaemonWriter(){
-        for (int i=0; i<5;i++){
+    public MyDaemonWriter(@Value("${ips.number.game}")Integer ipsNumber){
+        numberIpsGame = ipsNumber;
+        ipsValues = new String[numberIpsGame];
+        for (int i=0; i<numberIpsGame;i++){
             ipsValues[i] = r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256);
         }
     }
@@ -34,7 +38,7 @@ public class MyDaemonWriter {
         File resource = new ClassPathResource(filenameToRegisterRequest).getFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(resource.getAbsolutePath(),true));
 
-        String ip = ipsValues[r.nextInt(5)];
+        String ip = ipsValues[r.nextInt(numberIpsGame)];
         String operation = ActionEnum.values()[r.nextInt(ActionEnum.values().length)].toString();
         String user = RandomStringUtils.random(5,true,false)+"."+RandomStringUtils.random(5,true,false);
         String toWrite = ip+","+System.currentTimeMillis()+","+operation+","+user+"\n";
